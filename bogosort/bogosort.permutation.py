@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import random
-
 
 def bogosort(lst):
     cnt = 0
