@@ -20,8 +20,8 @@ def permutations(lst):
     for i in range(len(lst)):
         lst0 = deepcopy(lst)
         x = lst0.pop(i)
-        for j in permutations(lst0):
-            ret.append(cons(x, j))
+        for xs in permutations(lst0):
+            ret.append(cons(x, xs))
     return ret
 
 
