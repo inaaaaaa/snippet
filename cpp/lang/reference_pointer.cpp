@@ -14,7 +14,7 @@ void ptr_func(vector<int> *v) {
   v->push_back(33);
 }
 
-// This function don't change vector
+// This function doesn't change vector
 void _func(vector<int> v) {
   v.push_back(44);
 }
