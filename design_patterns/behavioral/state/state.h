@@ -5,18 +5,38 @@
 
 class State {
  public:
-  virtual void Handle();
-  State();
+  virtual void Do() {};
+  virtual State* next() { return new State(); };
+ protected:
+  State() {};
+  virtual ~State() {};
 };
 
 class AState : public State {
  public:
-  static AState* Instance();
-  void Handle();
- protected:
-  AState();
+  static State* Instance();
  private:
-  static AState* _instance;
+  static State* _instance;
+
+ public:
+  void Do();
+  State* next();
+ private:
+  AState() {};
+  ~AState() {};
 };
 
+class BState : public State {
+ public:
+  static State* Instance();
+ private:
+  static State* _instance;
+
+ public:
+  void Do();
+  State* next();
+ private:
+  BState() {};
+  ~BState() {};
+};
 #endif

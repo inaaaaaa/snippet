@@ -1,6 +1,5 @@
 #include "context.h"
 #include "state.h"
-
 #include <iostream>
 
 Context::Context() {
@@ -8,5 +7,6 @@ Context::Context() {
 }
 
 void Context::Request() {
-  this->_state->Handle();
+  this->_state->Do();
+  this->_state = this->_state->next();
 }

@@ -6,11 +6,8 @@
 class Context {
  public:
   Context();
+  ~Context() {};
   void Request();
-
-  /*private:
-    friend class State;
-    void ChangeState(State*);*/
 
  private:
   State* _state;
