@@ -41,7 +41,6 @@ void read_input() {
 
 int main() {
   read_input();
-  int ans = solve();
-  printf("%d\n", ans);
+  printf("%d\n", solve());
   return 0;
 }
