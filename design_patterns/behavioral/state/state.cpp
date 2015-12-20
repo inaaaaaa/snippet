@@ -1,6 +1,13 @@
 #include "state.h"
 
+/* State */
+void State::ChangeState(Context* c, State* s) {
+  c->ChangeState(s);
+}
+
+
 /* AState */
+State* AState::_instance = 0;
 State* AState::Instance() {
   if(AState::_instance == 0) {
     AState::_instance = new AState;
@@ -8,17 +15,14 @@ State* AState::Instance() {
   return AState::_instance;
 }
 
-void AState::Do() {
+void AState::Do(Context* c) {
   std::cout << "AState" << std::endl;
+  ChangeState(c, BState::Instance());
 }
 
-State* AState::next() {
-  return BState::Instance();
-}
-
-State* AState::_instance = 0;
 
 /* BState */
+State* BState::_instance = 0;
 State* BState::Instance() {
   if(BState::_instance == 0) {
     BState::_instance = new BState;
@@ -26,12 +30,7 @@ State* BState::Instance() {
   return BState::_instance;
 }
 
-void BState::Do() {
+void BState::Do(Context* c) {
   std::cout << "BState" << std::endl;
+  ChangeState(c, AState::Instance());
 }
-
-State* BState::next() {
-  return AState::Instance();
-}
-
-State* BState::_instance = 0;

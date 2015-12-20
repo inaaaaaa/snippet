@@ -4,10 +4,10 @@
 int main() {
   std::cout << "==== start ====" << std::endl;
   Context c;
-  c.Request();
-  c.Request();
-  c.Request();
-  c.Request();
+  c.Do();
+  c.Do();
+  c.Do();
+  c.Do();
   std::cout << "==== end ====" << std::endl;
   return 0;
 }
