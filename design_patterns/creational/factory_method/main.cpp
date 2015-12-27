@@ -34,8 +34,8 @@ class Creator
 public:
   virtual Product* DoMakeProduct() = 0;
   void Create() {
-    Product* p = DoMakeProduct();
     std::cout << "Creator::Create" << std::endl;
+    Product* p = DoMakeProduct();
     p->Echo();
   }
 protected:
