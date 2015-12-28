@@ -7,16 +7,11 @@ public:
   virtual void RawOpen() = 0;
   virtual void RawPrint() = 0;
   virtual void RawClose() = 0;
-protected:
-  Implementor() {}
-  ~Implementor() {}
 };
 
 class ConcreteImplementor : public Implementor
 {
 public:
-  ConcreteImplementor() {}
-  ~ConcreteImplementor() {}
   ConcreteImplementor(std::string _s) {
     this->s = _s;
     this->width = _s.length();
@@ -42,56 +37,51 @@ private:
   }
 };
 
-class Absraction
+class Abstraction
 {
 public:
-  Absraction() {}
-  ~Absraction() {}
-  Absraction(ConcreteImplementor _i) {
-    this->i = _i;
-  };
+  Abstraction() {}
+  Abstraction(ConcreteImplementor *_impl) {
+    this->impl = _impl;
+  }
   void Open() {
-    this->i.RawOpen();
+    this->impl->RawOpen();
   }
   void Print() {
-    this->i.RawPrint();
+    this->impl->RawPrint();
   }
   void Close() {
-    this->i.RawClose();
+    this->impl->RawClose();
   }
   void Display() {
-    this->i.RawOpen();
-    this->i.RawPrint();
-    this->i.RawClose();
+    this->impl->RawOpen();
+    this->impl->RawPrint();
+    this->impl->RawClose();
   }
 protected:
-  ConcreteImplementor i;
+  ConcreteImplementor *impl;
 };
 
-class RefinedAbsraction : public Absraction
+class RefinedAbstraction : public Abstraction
 {
 public:
-  RefinedAbsraction() {}
-  ~RefinedAbsraction() {}
-  RefinedAbsraction(ConcreteImplementor _i) {
-    this->i = _i;
-  };
-  void CountDisplay(int count) {
-    Open();
-    for(int i = 0; i < count; i++) {
-      Print();
+  RefinedAbstraction(ConcreteImplementor *_impl) {
+    this->impl = _impl;
+  }
+  void CountDisplay(int cnt) {
+    this->Open();
+    for(int i = 0; i < cnt; i++) {
+      this->Print();
     }
-    Close();
+    this->Close();
   }
 };
 
 int main() {
   std::cout << "==== start ====" << std::endl;
-  ConcreteImplementor c0 = ConcreteImplementor("pantera");
-  ConcreteImplementor c1 = ConcreteImplementor("metallica");
-  Absraction a0 = Absraction(c0);
-  Absraction a1 = Absraction(c1);
-  RefinedAbsraction a2 = RefinedAbsraction(c0);
+  Abstraction a0 = Abstraction(new ConcreteImplementor("pantera"));
+  Abstraction a1 = Abstraction(new ConcreteImplementor("metallica"));
+  RefinedAbstraction a2 = RefinedAbstraction(new ConcreteImplementor("pantera"));
   a0.Print();
   a0.Display();
   a1.Display();
