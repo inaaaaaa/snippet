@@ -63,8 +63,8 @@ public:
     c1->Add(new Leaf(33));
     c2->Add(new Leaf(111));
     c2->Add(new Leaf(222));
-    c0->Add(c2);
     c0->Add(c1);
+    c0->Add(c2);
     c0->Remove(c2);
     c0->Operation();
   }
