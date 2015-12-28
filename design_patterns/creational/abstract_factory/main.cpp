@@ -1,5 +1,4 @@
 #include <iostream>
-#include <typeinfo>
 
 class AbstractProductB {};
 class ProductB0 : public AbstractProductB {};
