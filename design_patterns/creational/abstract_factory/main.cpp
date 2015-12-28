@@ -1,4 +1,5 @@
 #include <iostream>
+#include <typeinfo>
 
 class AbstractProductB {};
 class ProductB0 : public AbstractProductB {};
@@ -14,12 +15,23 @@ public:
     this->b = _b;
     this->c = _c;
   }
+  virtual void Echo() = 0;
 private:
   AbstractProductB* b;
   AbstractProductC* c;
 };
-class ProductA0 : public AbstractProductA {};
-class ProductA1 : public AbstractProductA {};
+class ProductA0 : public AbstractProductA {
+public:
+  void Echo() {
+    std::cout << "ProductA0" << std::endl;
+  }
+};
+class ProductA1 : public AbstractProductA {
+public:
+  void Echo() {
+    std::cout << "ProductA1" << std::endl;
+  }
+};
 
 class AbstractFactory
 {
@@ -73,5 +85,7 @@ int main() {
   std::cout << "==== start ====" << std::endl;
   AbstractProductA* pa0 = Client::Create(new ConcreteFactory0);
   AbstractProductA* pa1 = Client::Create(new ConcreteFactory1);
+  pa0->Echo();
+  pa1->Echo();
   std::cout << "==== end ====" << std::endl;
 }
