@@ -1,74 +1,44 @@
 #include <iostream>
 #include <string>
+#include <typeinfo>
 
-using namespace std;
+class Product0 {};
+class Product1 {};
+class Product2 {};
 
 class Builder
 {
 public:
-  virtual void BuildBase() = 0;
-  virtual void BuildHeader(string title) = 0;
-  virtual void BuildHeading1(string s) = 0;
-  virtual void BuildHeading2(string s) = 0;
-  virtual void BuildParagraph(string s) = 0;
-  virtual void BuildFooter() = 0;
-  string GetResult() {
+  virtual void BuildPartA() = 0;
+  virtual void BuildPartB() = 0;
+  virtual void BuildPartC() = 0;
+  std::string GetResult() {
     return this->ret;
   }
 protected:
-  string ret;
-  void append(string s) {
-    this->ret += s;
-  }
+  std::string ret;
 };
 
-class HTMLBuilder : public Builder
+class ConcreteBuilder : public Builder
 {
 public:
-  HTMLBuilder() {}
-  ~HTMLBuilder() {}
-  void BuildBase() {
-    this->ret = "";
+  virtual void BuildPartA() {
+    Product0 *p = new Product0;
+    ret += "[BuildPartA] ";
+    ret += typeid(*p).name();
+    ret += "\n";
   }
-  void BuildHeader(string title) {
-    append("<!DOCTYPE html>\n<html>\n<head><title>" + title + "</title></head>\n<body>\n");
+  virtual void BuildPartB() {
+    Product1 *p = new Product1;
+    ret += "[BuildPartB] ";
+    ret += typeid(*p).name();
+    ret += "\n";
   }
-  void BuildHeading1(string s) {
-    append("<h1>" + s + "</h1>\n");
-  }
-  void BuildHeading2(string s) {
-    append("<h2>" + s + "</h2>\n");
-  }
-  void BuildParagraph(string s) {
-    append("<p>" + s + "</p>\n");
-  }
-  void BuildFooter() {
-    append("</body>\n</html>\n");
-  }
-};
-
-class MarkDownBuilder : public Builder
-{
-public:
-  MarkDownBuilder() {}
-  ~MarkDownBuilder() {}
-  void BuildBase() {
-    this->ret = "";
-  }
-  void BuildHeader(string title) {
-    append("# " + title + "\n");
-  }
-  void BuildHeading1(string s) {
-    append("## " + s + "\n");
-  }
-  void BuildHeading2(string s) {
-    append("### " + s + "\n");
-  }
-  void BuildParagraph(string s) {
-    append(s + "  \n");
-  }
-  void BuildFooter() {
-    append("");
+  virtual void BuildPartC() {
+    Product2 *p = new Product2;
+    ret += "[BuildPartC] ";
+    ret += typeid(*p).name();
+    ret += "\n";
   }
 };
 
@@ -76,26 +46,19 @@ class Director
 {
 public:
   static void Construct(Builder *builder) {
-    builder->BuildBase();
-    builder->BuildHeader("This is Title");
-    builder->BuildHeading1("Yes");
-    builder->BuildParagraph("foo foofoo foofoofoo");
-    builder->BuildHeading2("No");
-    builder->BuildParagraph("bar barbar barbarbar");
-    builder->BuildFooter();
+    builder->BuildPartA();
+    builder->BuildPartB();
+    builder->BuildPartB();
+    builder->BuildPartC();
+    builder->BuildPartA();
+    builder->BuildPartC();
   }
 };
 
 int main() {
-  cout << "==== start ====" << endl;
-
-  HTMLBuilder *b0 = new HTMLBuilder;
-  Director::Construct(b0);
-  cout << b0->GetResult();
-
-  MarkDownBuilder *b1 = new MarkDownBuilder;
-  Director::Construct(b1);
-  cout << b1->GetResult();
-
-  cout << "==== end ====" << endl;
+  std::cout << "==== start ====" << std::endl;
+  ConcreteBuilder *b = new ConcreteBuilder;
+  Director::Construct(b);
+  std::cout << b->GetResult();
+  std::cout << "==== end ====" << std::endl;
 }
