@@ -18,13 +18,10 @@ public:
     switch(extrinsicState) {
     case 0:
       return "**" + this->intrinsicState + "**";
-      break;
     case 1:
       return "_" + this->intrinsicState + "_";
-      break;
     case 2:
       return "~~" + this->intrinsicState + "~~";
-      break;
     default:
       return "";
     }
