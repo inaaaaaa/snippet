@@ -5,7 +5,7 @@
 class FlyWeight
 {
 public:
-  virtual std::string Operation(int extrinsic) = 0;
+  virtual std::string Operation(int extrinsicState) = 0;
 };
 
 class ConcreteFlyWeight : public FlyWeight
