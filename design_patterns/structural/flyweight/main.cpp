@@ -5,31 +5,32 @@
 class FlyWeight
 {
 public:
-  std::string Operation(int extrinsic) {
-    switch(extrinsic) {
-    case 0:
-      return "**" + this->intrinsic + "**";
-      break;
-    case 1:
-      return "_" + this->intrinsic + "_";
-      break;
-    case 2:
-      return "~~" + this->intrinsic + "~~";
-      break;
-    default:
-      return "";
-    }
-  }
-protected:
-  std::string intrinsic;
+  virtual std::string Operation(int extrinsic) = 0;
 };
 
 class ConcreteFlyWeight : public FlyWeight
 {
 public:
   ConcreteFlyWeight(std::string s) {
-    this->intrinsic = s;
+    this->intrinsicState = s;
   }
+  std::string Operation(int extrinsicState) {
+    switch(extrinsicState) {
+    case 0:
+      return "**" + this->intrinsicState + "**";
+      break;
+    case 1:
+      return "_" + this->intrinsicState + "_";
+      break;
+    case 2:
+      return "~~" + this->intrinsicState + "~~";
+      break;
+    default:
+      return "";
+    }
+  }
+private:
+  std::string intrinsicState;
 };
 
 class FlyWeightFactory
