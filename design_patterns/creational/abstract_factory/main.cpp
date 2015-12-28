@@ -1,83 +1,77 @@
 #include <iostream>
-#include <string>
 
-using namespace std;
+class AbstractProductB {};
+class ProductB0 : public AbstractProductB {};
+class ProductB1 : public AbstractProductB {};
+
+class AbstractProductC {};
+class ProductC0 : public AbstractProductC {};
+class ProductC1 : public AbstractProductC {};
+
+class AbstractProductA {
+public:
+  void Set(AbstractProductB* _b, AbstractProductC* _c) {
+    this->b = _b;
+    this->c = _c;
+  }
+private:
+  AbstractProductB* b;
+  AbstractProductC* c;
+};
+class ProductA0 : public AbstractProductA {};
+class ProductA1 : public AbstractProductA {};
 
 class AbstractFactory
 {
 public:
-  virtual string GenBase() = 0;
-  virtual string GenHeader(string title) = 0;
-  virtual string GenHeading1(string s) = 0;
-  virtual string GenHeading2(string s) = 0;
-  virtual string GenParagraph(string s) = 0;
-  virtual string GenFooter() = 0;
+  virtual AbstractProductA* CreateProductA() = 0;
+  virtual AbstractProductB* CreateProductB() = 0;
+  virtual AbstractProductC* CreateProductC() = 0;
 };
 
-class HTMLFactory : public AbstractFactory
+class ConcreteFactory0 : public AbstractFactory
 {
 public:
-  string GenBase() {
-    return "";
+  AbstractProductA* CreateProductA() {
+    return new ProductA0;
   }
-  string GenHeader(string title) {
-    return "<!DOCTYPE html>\n<html>\n<head><title>" + title + "</title></head>\n<body>\n";
+  AbstractProductB* CreateProductB() {
+    return new ProductB0;
   }
-  string GenHeading1(string s) {
-    return "<h1>" + s + "</h1>\n";
-  }
-  string GenHeading2(string s) {
-    return "<h2>" + s + "</h2>\n";
-  }
-  string GenParagraph(string s) {
-    return "<p>" + s + "</p>\n";
-  }
-  string GenFooter() {
-    return "</body>\n</html>\n";
+  AbstractProductC* CreateProductC() {
+    return new ProductC0;
   }
 };
 
-class MarkDownFactory : public AbstractFactory
+class ConcreteFactory1 : public AbstractFactory
 {
 public:
-  string GenBase() {
-    return "";
+  AbstractProductA* CreateProductA() {
+    return new ProductA1;
   }
-  string GenHeader(string title) {
-    return "# " + title + "\n";
+  AbstractProductB* CreateProductB() {
+    return new ProductB1;
   }
-  string GenHeading1(string s) {
-    return "## " + s + "\n";
-  }
-  string GenHeading2(string s) {
-    return "### " + s + "\n";
-  }
-  string GenParagraph(string s) {
-    return s + "  \n";
-  }
-  string GenFooter() {
-    return "";
+  AbstractProductC* CreateProductC() {
+    return new ProductC1;
   }
 };
 
 class Client
 {
 public:
-  static string Create(AbstractFactory *factory) {
-    string s = factory->GenBase();
-    s += factory->GenHeader("This is Title");
-    s += factory->GenHeading1("Yes");
-    s += factory->GenParagraph("foo foofoo foofoofoo");
-    s += factory->GenHeading2("No");
-    s += factory->GenParagraph("bar barbar barbarbar");
-    s += factory->GenFooter();
-    return s;
+  static AbstractProductA* Create(AbstractFactory *factory) {
+    AbstractProductA* pa = factory->CreateProductA();
+    AbstractProductB* pb = factory->CreateProductB();
+    AbstractProductC* pc = factory->CreateProductC();
+    pa->Set(pb, pc);
+    return pa;
   }
 };
 
 int main() {
-  cout << "==== start ====" << endl;
-  cout << Client::Create(new HTMLFactory);
-  cout << Client::Create(new MarkDownFactory);
-  cout << "==== end ====" << endl;
+  std::cout << "==== start ====" << std::endl;
+  AbstractProductA* pa0 = Client::Create(new ConcreteFactory0);
+  AbstractProductA* pa1 = Client::Create(new ConcreteFactory1);
+  std::cout << "==== end ====" << std::endl;
 }
