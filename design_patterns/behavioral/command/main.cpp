@@ -36,7 +36,7 @@ private:
 class Invoker
 {
 public:
-  void setCommand(Command* command) {
+  void StoreCommand(Command* command) {
     this->_command = command;
   }
   void Fire() {
@@ -66,7 +66,7 @@ int main() {
 
   // Set an event
   Invoker invoker = Invoker();
-  invoker.setCommand(command);
+  invoker.StoreCommand(command);
 
   // Fire
   invoker.Fire();
