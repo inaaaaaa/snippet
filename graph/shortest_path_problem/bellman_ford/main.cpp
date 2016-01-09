@@ -1,5 +1,4 @@
 #include <iostream>
-using namespace std;
 
 struct edge { int from, to, cost; };
 
@@ -8,6 +7,7 @@ int d[100];
 int INF = 100000;
 int V, E;
 
+// bellman-ford
 void shortest_path(int s) {
   for(int i = 0; i < V; i++) d[i] = INF;
   d[s] = 0;
@@ -31,6 +31,6 @@ int main() {
   }
   shortest_path(0);
   for(int i = 0; i < V; i++) {
-    cout << i << ":" << d[i] << endl;
+    printf("%d:%d\n", i, d[i]);
   }
 }
