@@ -7,8 +7,8 @@ int d[100];
 int INF = 100000;
 int V, E;
 
-// bellman-ford
-void shortest_path(int s) {
+// obtain shortest path
+void bellman_ford(int s) {
   for(int i = 0; i < V; i++) d[i] = INF;
   d[s] = 0;
   while(true) {
@@ -29,7 +29,7 @@ int main() {
   for(int i = 0; i < E; i++) {
     scanf("%d %d %d", &es[i].from, &es[i].to, &es[i].cost);
   }
-  shortest_path(0);
+  bellman_ford(0);
   for(int i = 0; i < V; i++) {
     printf("%d:%d\n", i, d[i]);
   }
