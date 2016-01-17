@@ -1,45 +1,61 @@
 #include <iostream>
-using namespace std;
+#include <queue>
 
-int cost[100][100];
-int d[100];
-bool used[100];
-int E;
-int V;
-int INF = 100000;
+struct Edge {
+  Edge() {}
+  ~Edge() {}
+  Edge(int to, int cost) {
+    this->to = to;
+    this->cost = cost;
+  }
+  int to;
+  int cost;
+};
 
-void dijkstra(int s) {
-  fill(d, d + V, INF);
-  fill(used, used + V, false);
-  d[s] = 0;
-  while(true) {
-    int v = -1;
-    for(int u = 0; u < V; u++) {
-      if(!used[u] && (v == -1 || d[u] < d[v])) v = u;
-    }
-    if(v == -1) break;
-    used[v] = true;
-    for(int u = 0; u < V; u++) {
-      d[u] = min(d[u], d[v] + cost[v][u]);
+// first is a distance, second is a vertex's number.
+typedef std::pair<int, int> P;
+
+const int MAX_V = 1000;
+const int INF = 100000;
+int E, V; // number of edge, vertex
+std::vector<Edge> GRAPH[MAX_V]; // is an array of vector<Edge>.
+int DISTANCE[MAX_V];
+
+void dijkstra(int start) {
+  // initialize
+  std::priority_queue<P, std::vector<P>, std::greater<P> > min_pq;
+  std::fill(DISTANCE, DISTANCE + V, INF);
+  DISTANCE[start] = 0;
+  min_pq.push(P(0, start));
+
+  while(!min_pq.empty()) {
+    P p = min_pq.top(); // top is the P of min distance.
+    min_pq.pop();
+    int v = p.second;
+    if(DISTANCE[v] < p.first) continue;
+
+    // loop neighboring vertexes
+    for(int i = 0; i < GRAPH[v].size(); i++) {
+      Edge e = GRAPH[v][i];
+      if(DISTANCE[e.to] > DISTANCE[v] + e.cost) {
+        DISTANCE[e.to] = DISTANCE[v] + e.cost;
+        min_pq.push(P(DISTANCE[e.to], e.to));
+      }
     }
   }
 }
 
 int main() {
-  scanf("%d %d", &E, &V);
-  for(int i = 0; i < V; i++) {
-    for(int j = 0; j < V; j++) {
-      cost[i][j] = INF;
-    }
-  }
+  scanf("%d %d", &V, &E);
   for(int i = 0; i < E; i++) {
-    int u, v, _cost;
-    scanf("%d %d %d", &u, &v, &_cost);
-    cost[u][v] = _cost;
-    cost[v][u] = _cost;
+    int u, v, c;
+    scanf("%d %d %d", &u, &v, &c);
+    // undirected graph
+    GRAPH[u].push_back(*(new Edge(v, c)));
+    GRAPH[v].push_back(*(new Edge(u, c)));
   }
   dijkstra(0);
   for(int i = 0; i < V; i++) {
-    printf("%d:%d\n", i, d[i]);
+    printf("vertex:%d, distance:%d\n", i, DISTANCE[i]);
   }
 }
