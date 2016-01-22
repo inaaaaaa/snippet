@@ -9,7 +9,7 @@ struct Data
     this->value = value;
     this->label = label;
   }
-  // ascending order
+  // descending order
   bool operator<(const Data& another) const {
     return value > another.value;
   }

@@ -9,7 +9,7 @@ struct Data
     this->rank = rank;
     this->label = label;
   }
-  // descending order
+  // ascending order
   bool operator<(const Data& another) const {
     return rank < another.rank;
   }
