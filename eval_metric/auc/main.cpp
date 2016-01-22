@@ -17,6 +17,7 @@ struct Data
   int label;
 };
 
+// Area under the curve
 float calc_auc(std::vector<Data>& vec) {
   sort(vec.begin(), vec.end());
 
