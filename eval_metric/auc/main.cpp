@@ -20,17 +20,17 @@ struct Data
 float calc_auc(std::vector<Data>& vec) {
   sort(vec.begin(), vec.end());
 
-  int num_pos = 0, num_neg = 0;
+  int pos_num = 0, neg_num = 0;
   for(int i = 0; i < vec.size(); i++) {
     if(vec[i].label == 1) {
-      num_pos++;
+      pos_num++;
     } else {
-      num_neg++;
+      neg_num++;
     }
   }
 
   float auc = 0.0f, pos = 0.0f;
-  float pos_step = 1.0f / num_pos, neg_step = 1.0f / num_neg;
+  float pos_step = 1.0f / pos_num, neg_step = 1.0f / neg_num;
   for(int i = 0; i < vec.size(); i++) {
     if(vec[i].label == 1) {
       pos += pos_step;
