@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <vector>
 
@@ -5,15 +6,15 @@ struct Data
 {
   Data() {}
   ~Data() {}
-  Data(int value, int label) {
+  Data(float value, int label) {
     this->value = value;
     this->label = label;
   }
-  // descending order
+  // Descending order
   bool operator<(const Data& another) const {
     return value > another.value;
   }
-  int value;
+  float value;
   int label;
 };
 
@@ -45,13 +46,13 @@ float calc_auc(std::vector<Data>& vec) {
 
 int main() {
   std::vector<Data> vec;
-  int num_data, value, label;
+  int num_data, label;
+  float value;
   std::cin >> num_data;
   for(int i = 0; i < num_data; i++) {
     std::cin >> value >> label;
     vec.push_back(Data(value, label));
   }
-  float auc = calc_auc(vec);
-  std::cout << "auc:" << auc << std::endl;
+  std::cout << "auc:" << calc_auc(vec) << std::endl;
   return 0;
 }
