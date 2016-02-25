@@ -7,6 +7,7 @@ hello() ->
     io:format("Hello, world!~n").
 
 main(_) ->
-    hello(),
-    hello(),
+    io:format("hello~n"),
+    erlang:display("hello"),
+    io:write("hello~n"),
     hello().
