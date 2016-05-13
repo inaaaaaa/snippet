@@ -15,10 +15,10 @@ g_func = {
 def _eval(stack):
     args = []
     for i in range(len(stack)):
-        token0 = stack[len(stack)-i-2]
-        token1 = stack[len(stack)-i-1]
+        token0 = stack[len(stack) - i - 2]
+        token1 = stack[len(stack) - i - 1]
         if token0 == '(':
-            return stack[:len(stack)-i-2] + [g_func[token1](args)]
+            return stack[:len(stack) - i - 2] + [g_func[token1](args)]
         else:
             args.insert(0, token1)
 
@@ -28,7 +28,7 @@ def parse(tokens, stack):
     if tokens[0] == ')':
         return parse(tokens[1:], _eval(stack))
     else:
-        return parse(tokens[1:], stack+[tokens[0]])
+        return parse(tokens[1:], stack + [tokens[0]])
 
 def read_token(_str):
     token = re.match(r'[(,)]|\w+', _str)
