@@ -6,29 +6,13 @@ import re
 import sys
 
 g_func = {
-    'add': lambda xs: add(xs),
-    'sub': lambda xs: sub(xs),
-    'mul': lambda xs: mul(xs),
-    'div': lambda xs: div(xs)
+    'add': lambda xs: functools.reduce(lambda a, b: a + b, [int(x) for x in xs]),
+    'sub': lambda xs: functools.reduce(lambda a, b: a - b, [int(x) for x in xs]),
+    'mul': lambda xs: functools.reduce(lambda a, b: a * b, [int(x) for x in xs]),
+    'div': lambda xs: functools.reduce(lambda a, b: a / b, [int(x) for x in xs])
 }
 
-def add(xs):
-    xs = [int(x) for x in xs]
-    return functools.reduce(lambda a, b: a + b, xs)
-
-def sub(xs):
-    xs = [int(x) for x in xs]
-    return functools.reduce(lambda a, b: a - b, xs)
-
-def mul(xs):
-    xs = [int(x) for x in xs]
-    return functools.reduce(lambda a, b: a * b, xs)
-
-def div(xs):
-    xs = [int(x) for x in xs]
-    return functools.reduce(lambda a, b: a / b, xs)
-
-def _apply(stack):
+def _eval(stack):
     args = []
     for i in range(len(stack)):
         token0 = stack[len(stack)-i-2]
@@ -38,26 +22,31 @@ def _apply(stack):
         else:
             args.insert(0, token1)
 
-def read_head(_str):
+def parse(tokens, stack):
+    if len(tokens) == 0:
+        return (tokens, stack)
+    if tokens[0] == ')':
+        return parse(tokens[1:], _eval(stack))
+    else:
+        return parse(tokens[1:], stack+[tokens[0]])
+
+def read_token(_str):
     token = re.match(r'[(,)]|\w+', _str)
     if token:
         return (_str[:token.end()], _str[token.end():])
     else:
-        return read_head(_str[1:])
-    
-def consume(_str, stack):
-    if _str == '':
-        return stack
-    (head, last) = read_head(_str)
-    if head == ')':
-        return consume(last, _apply(stack))
-    else:
-        return consume(last, stack+[head])
+        return read_token(_str[1:])
 
-def _eval(_str):
-    return consume(_str, [])[0]
+def tokenize(_str):
+    if _str == '':
+        return []
+    (token, rest) = read_token(_str)
+    return [token] + tokenize(rest)
+
+def _exec(_str):
+    return parse(tokenize(_str), [])[1][0]
 
 if __name__ == '__main__':
-    print(_eval("(mul (add 1 2 3) 2000)"))
-    print(_eval("(div (add 5 5) 2)"))
-    print(_eval("(sub 3 7)"))
+    print(_exec("(mul (add 1 2 3) 2000)"))
+    print(_exec("(div (add 5 5) 2)"))
+    print(_exec("(sub 3 7)"))
