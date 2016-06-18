@@ -31,6 +31,7 @@ class Node():
         while n is not None:
             ret.append(n)
             n = n.parent_node
+        ret.reverse()
         return ret
 
 def calc_cost(parent_node, g_field_cost):
