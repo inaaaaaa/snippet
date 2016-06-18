@@ -56,14 +56,12 @@ def a_star(start, goal):
             next_coord = Coord(now_node.x + x_offset[i], now_node.y + y_offset[i])
             next_cost = g_field[next_coord.y][next_coord.x]
             if 0 <= next_coord.x and next_coord.x < g_field_x_size and 0 <= next_coord.y and next_coord.y < g_field_y_size and next_cost > 0:
-                g_field[next_coord.y][next_coord.x] = 0
                 open_list.append(Node(next_coord, now_node, calc_cost(now_node, next_cost), calc_heuristic(next_coord, goal)))
+                g_field[next_coord.y][next_coord.x] = 0
 
 def main():
     route = [(node.x, node.y) for node in a_star(Coord(4, 5), Coord(6, 1))]
     print(route)
-    for xs in g_field:
-        print(xs)
 
 if __name__ == '__main__':
     main()
