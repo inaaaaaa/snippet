@@ -37,12 +37,29 @@ class BrainFuck:
                 self.arr[self.data_ptr] = int(input())
             elif c == '[':
                 if self.arr[self.data_ptr] == 0:
-                    while _in[self.inst_ptr] != ']':
+                    n = 1
+                    while True:
+                        _c = _in[self.inst_ptr]
+                        if _c == '[':
+                            n += 1
+                        elif _c == ']':
+                            n -= 1
+                            if n == 0:
+                                break
                         self.inst_ptr += 1
                     self.inst_ptr += 1
             elif c == ']':
                 if self.arr[self.data_ptr] != 0:
-                    while _in[self.inst_ptr] != '[':
+                    self.inst_ptr -= 2
+                    n = 1
+                    while True:
+                        _c = _in[self.inst_ptr]
+                        if _c == ']':
+                            n += 1
+                        elif _c == '[':
+                            n -= 1
+                            if n == 0:
+                                break
                         self.inst_ptr -= 1
                     self.inst_ptr += 1
             else:
