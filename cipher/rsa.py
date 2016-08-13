@@ -32,6 +32,12 @@ class RSA:
                 ret.append(d)
         return ret[random.randrange(len(ret))]
 
+    def get_publickey(self):
+        return self.m, self.e
+
+    def get_privatekey(self):
+        return self.d
+
     def encrypt(self, x):
         return (x ** self.e) % self.m
 
@@ -41,6 +47,10 @@ class RSA:
 
 if __name__ == '__main__':
     rsa = RSA(71, 41)
+    print('publickey:')
+    print(rsa.get_publickey())
+    print('privatekey:')
+    print(rsa.get_privatekey())
 
     # plaintext
     s = 'Hello, World!'
